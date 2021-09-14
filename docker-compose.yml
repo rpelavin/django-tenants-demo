@@ -1,4 +1,4 @@
-version: "3.9"
+version: "3.3"
    
 services:
   db:
@@ -9,6 +9,7 @@ services:
       - POSTGRES_PASSWORD=postgres
   web:
     build: .
+    image: assortedbits.azurecr.io/django-tenants
     depends_on: 
       - db
     volumes:
