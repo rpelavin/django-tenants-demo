@@ -7,5 +7,5 @@ class TenantAdmin(TenantAdminMixin, admin.ModelAdmin):
     list_display = ('name', 'schema_name', 'created_on',)
 
 @admin.register(Domain)
-class TenantAdmin(admin.ModelAdmin):
+class DomainAdmin(admin.ModelAdmin):
     list_display = ('domain', 'tenant', 'is_primary',)
