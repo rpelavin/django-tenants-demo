@@ -13,11 +13,10 @@ services:
     depends_on: 
       - db
     environment:
-      - ADMIN_USERNAME=admin
-      - ADMIN_EMAIL=admin@local
-      - ADMIN_PASSWORD=password
-      - PUBLIC_TENANT_DOMAIN=localhost
+      - ADMIN_USERNAME=${ADMIN_USERNAME}
+      - ADMIN_EMAIL=${ADMIN_EMAIL}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
+      - PUBLIC_TENANT_DOMAIN=${PUBLIC_TENANT_DOMAIN}
     ports:
       - 8000:8000
-    volumes:
-      - .:/code
+    restart: on-failure

@@ -14,13 +14,14 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         # Ensure admin superuser created
         User = get_user_model()
-        if not User.objects.filter(username=options['admin_username']).exists():
-            User.objects.create_superuser(username=options['admin_username'],
+        admin_username = options['admin_username']
+        if not User.objects.filter(username=admin_username).exists():
+            User.objects.create_superuser(username=admin_username,
                                           email=options['admin_email'],
                                           password=options['admin_password'])
-            self.stdout.write(self.style.SUCCESS('Created admin superuser.'))
+            self.stdout.write(self.style.SUCCESS(f'Created {admin_username} superuser.'))
         else:
-            self.stdout.write(self.style.SUCCESS('Found admin superuser.'))
+            self.stdout.write(self.style.SUCCESS(f'Found {admin_username} superuser.'))
         
         # Ensure public tenant created
         if not Tenant.objects.filter(name='public').exists():
@@ -32,11 +33,12 @@ class Command(BaseCommand):
             self.stdout.write(self.style.SUCCESS('Found public tenant.'))
 
         # Ensure public tenant domain created
-        if not Domain.objects.filter(domain='localhost').exists():
-            domain = Domain(domain=options['public_tenant_domain'],
+        public_tenant_domain = options['public_tenant_domain']
+        if not Domain.objects.filter(domain=public_tenant_domain).exists():
+            domain = Domain(domain=public_tenant_domain,
                             tenant=tenant,
                             is_primary = True)
             domain.save()
-            self.stdout.write(self.style.SUCCESS('Created localhost domain.'))
+            self.stdout.write(self.style.SUCCESS(f'Created {public_tenant_domain} domain.'))
         else:
-            self.stdout.write(self.style.SUCCESS('Found localhost domain.'))
+            self.stdout.write(self.style.SUCCESS(f'Found {public_tenant_domain} domain.'))
