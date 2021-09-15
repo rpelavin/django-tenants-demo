@@ -24,21 +24,11 @@ class Command(BaseCommand):
             self.stdout.write(self.style.SUCCESS(f'Found {admin_username} superuser.'))
         
         # Ensure public tenant created
-        if not Tenant.objects.filter(name='public').exists():
-            tenant = Tenant(schema_name='public',
-                            name='public')
+        if not Tenant.objects.filter(schema_name='public').exists():
+            tenant = Tenant(schema_name='public')
             tenant.save()
+            domain = Domain(domain=options['public_tenant_domain'], tenant=tenant, is_primary = True)
+            domain.save()
             self.stdout.write(self.style.SUCCESS('Created public tenant.'))
         else:
             self.stdout.write(self.style.SUCCESS('Found public tenant.'))
-
-        # Ensure public tenant domain created
-        public_tenant_domain = options['public_tenant_domain']
-        if not Domain.objects.filter(domain=public_tenant_domain).exists():
-            domain = Domain(domain=public_tenant_domain,
-                            tenant=tenant,
-                            is_primary = True)
-            domain.save()
-            self.stdout.write(self.style.SUCCESS(f'Created {public_tenant_domain} domain.'))
-        else:
-            self.stdout.write(self.style.SUCCESS(f'Found {public_tenant_domain} domain.'))
