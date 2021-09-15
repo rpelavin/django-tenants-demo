@@ -9,6 +9,7 @@ class Command(BaseCommand):
         parser.add_argument('--admin-username', required=True, help='The admin username.')
         parser.add_argument('--admin-email', required=True, help='The admin email.')
         parser.add_argument('--admin-password', required=True, help='The admin password.')
+        parser.add_argument('--public-tenant-domain', required=True, help='The public tenant domain.')
 
     def handle(self, *args, **options):
         # Ensure admin superuser created
@@ -30,12 +31,11 @@ class Command(BaseCommand):
         else:
             self.stdout.write(self.style.SUCCESS('Found public tenant.'))
 
-        # Ensure public domain created
+        # Ensure public tenant domain created
         if not Domain.objects.filter(domain='localhost').exists():
-            domain = Domain()
-            domain.domain = 'localhost'
-            domain.tenant = tenant
-            domain.is_primary = True
+            domain = Domain(domain=options['public_tenant_domain'],
+                            tenant=tenant,
+                            is_primary = True)
             domain.save()
             self.stdout.write(self.style.SUCCESS('Created localhost domain.'))
         else:

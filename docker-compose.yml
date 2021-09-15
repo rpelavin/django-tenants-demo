@@ -14,8 +14,9 @@ services:
       - db
     environment:
       - ADMIN_USERNAME=admin
-      - ADMIN_EMAIL=foobar@local
+      - ADMIN_EMAIL=admin@local
       - ADMIN_PASSWORD=password
+      - PUBLIC_TENANT_DOMAIN=localhost
     ports:
       - 8000:8000
     volumes:
