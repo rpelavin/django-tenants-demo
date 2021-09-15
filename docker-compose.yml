@@ -13,10 +13,10 @@ services:
     depends_on: 
       - db
     environment:
-      - ADMIN_USERNAME=${ADMIN_USERNAME}
-      - ADMIN_EMAIL=${ADMIN_EMAIL}
-      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
       - PUBLIC_TENANT_DOMAIN=${PUBLIC_TENANT_DOMAIN}
+      - SUPERUSER_USERNAME=${SUPERUSER_USERNAME}
+      - SUPERUSER_EMAIL=${SUPERUSER_EMAIL}
+      - SUPERUSER_PASSWORD=${SUPERUSER_PASSWORD}
     ports:
       - 8000:8000
     restart: on-failure
