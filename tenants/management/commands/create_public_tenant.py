@@ -2,7 +2,7 @@ from django.core.management.base import BaseCommand
 from tenants.models import Tenant, Domain
 
 class Command(BaseCommand):
-    help = 'Bootstraps the environment with default development data'
+    help = 'Creates the public tenant if it does not already exist'
 
     def add_arguments(self, parser):
         parser.add_argument('--public-tenant-domain', required=True, help='The public tenant domain.')
@@ -11,7 +11,6 @@ class Command(BaseCommand):
         parser.add_argument('--superuser-password', required=True, help='The superuser password.')
 
     def handle(self, *args, **options):
-        # Ensure public tenant created
         if not Tenant.objects.filter(schema_name='public').exists():
             tenant = Tenant(schema_name='public',
                             superuser_username=options['superuser_username'],

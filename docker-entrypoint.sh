@@ -2,7 +2,7 @@
 set -e
 python manage.py migrate_schemas
 python manage.py migrate_schemas --shared
-python manage.py bootstrap \
+python manage.py create_public_tenant \
     --public-tenant-domain $PUBLIC_TENANT_DOMAIN \
     --superuser-username $SUPERUSER_USERNAME \
     --superuser-email $SUPERUSER_EMAIL \
