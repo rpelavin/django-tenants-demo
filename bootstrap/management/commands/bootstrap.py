@@ -5,13 +5,18 @@ from tenants.models import Tenant, Domain
 class Command(BaseCommand):
     help = 'Bootstraps the environment with default development data'
 
+    def add_arguments(self, parser):
+        parser.add_argument('--admin-username', required=True, help='The admin username.')
+        parser.add_argument('--admin-email', required=True, help='The admin email.')
+        parser.add_argument('--admin-password', required=True, help='The admin password.')
+
     def handle(self, *args, **options):
-        # Ensure superuser created
+        # Ensure admin superuser created
         User = get_user_model()
-        if not User.objects.filter(username='admin').exists():
-            User.objects.create_superuser(username='admin',
-                                          email='admin@local',
-                                          password='password')
+        if not User.objects.filter(username=options['admin_username']).exists():
+            User.objects.create_superuser(username=options['admin_username'],
+                                          email=options['admin_email'],
+                                          password=options['admin_password'])
             self.stdout.write(self.style.SUCCESS('Created admin superuser.'))
         else:
             self.stdout.write(self.style.SUCCESS('Found admin superuser.'))
