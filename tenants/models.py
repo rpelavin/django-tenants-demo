@@ -14,4 +14,5 @@ class Tenant(TenantMixin):
 
 
 class Domain(DomainMixin):
-    pass
+    def __str__(self):
+        return self.domain
